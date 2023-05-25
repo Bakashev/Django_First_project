@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from django.urls import reverse
 from django.http import HttpResponseNotAllowed
-from django.views import View
+from django.views import View, generic
+
 
 class PostsList(View):
 
@@ -15,11 +16,15 @@ class PostsList(View):
         return render(request,'home.html', {'posts': posts})
 
 
-class NotNumbersPostsList(PostsList):
+class NotNumbersPostsList(generic.ListView):
+    template_name = 'home.html'
+    context_object_name = 'posts'
+    queryset = Post.objects.filter(title__iregex=r'^\D+$').all()
 
-    @staticmethod
-    def get_qureset():
-        return Post.objects.filter(title__iregex=r'^\D+$').all()
+    # для работы если бы мы наследовались не из generic.ListView а от PostsListзнерщт
+    # @staticmethod
+    # def get_qureset():
+    #     return Post.objects.filter(title__iregex=r'^\D+$').all()
 
 class PostValidate:
     #@staticmethod
