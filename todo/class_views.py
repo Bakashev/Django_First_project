@@ -19,7 +19,18 @@ class PostsList(View):
 class NotNumbersPostsList(generic.ListView):
     template_name = 'home.html'
     context_object_name = 'posts'
-    queryset = Post.objects.filter(title__iregex=r'^\D+$').all()
+    # Заменяем на get_quareset()
+    #queryset = Post.objects.filter(title__iregex=r'^\D+$').all()
+    def validate(self):
+        s = self.request.GET.get('search')
+        return s is not None and len(s) <= 50
+
+    def get_queryset(self):
+        if not self.validate():
+            return Post.objects.all()
+        search = self.request.GET['search']
+        print(self.request.GET)
+        return  Post.objects.filter(title__icontains=search)
 
     # для работы если бы мы наследовались не из generic.ListView а от PostsListзнерщт
     # @staticmethod
