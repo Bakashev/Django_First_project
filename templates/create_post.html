@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create post</title>
+</head>
+<body>
+        <div>
+            {% for error in errors %}
+                <p style="color:white ; background-color: #11557C; padding: 10px;  border-radius: 10px" >
+                    {{ error }}
+                </p>
+            {% endfor %}
+
+        </div>
+
+
+        <form method="post">
+             {% csrf_token %}
+            <div>
+                <label>
+                    Заголовок заметки
+                    <input name="zagolovok" >
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Содержимое
+                    <textarea name="soderjimoe">
+                    </textarea>
+
+                </label>
+            </div>
+            <input type="submit" value="Send">
+        </form>
+</body>
+</html>

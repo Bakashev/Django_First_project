@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div>
+        {% for error in errors %}
+            <p style="color: white; background-color: #30799B">  {{ error }} </p>
+        {% endfor %}
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>
+            Заголовок
+            <div>
+                <input name="zagolovok" value="{{ post.title }}">
+            </div>
+        </label>
+
+        <label>
+            Описание
+            <div>
+                <textarea name="opisanije">{{ post.content}}</textarea>
+            </div>
+        </label>
+
+        <div>
+            <input type="submit",  value="Edit" >
+        </div>
+
+
+    </form>
+
+
+</body>
+</html>
