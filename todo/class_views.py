@@ -57,7 +57,7 @@ class PostValidate:
 class CreatPost(View, PostValidate):
 
     def get(self, request):
-        return render(request,'create_post.html')
+       return render(request,'create_post.html')
 
 
     def post(self, request):
@@ -72,3 +72,10 @@ class CreatPost(View, PostValidate):
         post = Post(title=title, content=content)
         post.save()
         return redirect(reverse('show_post', kwargs={'post_id': post.id}))
+
+
+class EditPost(generic.ListView, generic.UpdateView):
+    model = Post
+    fields = ['title', 'content']
+    template_name = 'edit_post.html'
+

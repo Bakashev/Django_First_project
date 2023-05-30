@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class=".flex-wrap">
+
+    {% for post in  object_list%}
+
+
+
+    <div class="accordion" id='{{ post.id}}'>
+    <div class="accordion" id='{{ post.id}}'>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#post{{post.id}}" aria-expanded="true" aria-controls="collapseOne">
+        {{ post.title }}
+      </button>
+    </h2>
+    <div id="post{{post.id}}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>{{post.content}}.</strong>
+      <a href={% url 'show_post' post.id %} class="icon-link">
+          Call to action
+          <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+        </a>
+      </div>
+    </div>
+
+
+
+
+
+
+    {% endfor %}
+     </div>
+    </div>
+</div>
+{% endblock content %}

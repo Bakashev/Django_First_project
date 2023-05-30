@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+    <form action="" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Edit post</label>
+            <input type="text" class="form-control" name="title" id="exampleFormControlInput1" value={{ post.title}}>
+            </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Content post</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" {{ post.content }}></textarea>
+        </div>
+
+    <input type="submit" value="Edit">
+    </form>
+
+
+{% endblock content %}

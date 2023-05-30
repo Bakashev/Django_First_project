@@ -13,18 +13,7 @@
 
     <form method="post">
         {% csrf_token %}
-        <label>
-            Заголовок
-            <div>
-                <input name="zagolovok" value="{{ post.title }}">
-            </div>
-        </label>
-
-        <label>
-            Описание
-            <div>
-                <textarea name="opisanije">{{ post.content}}</textarea>
-            </div>
+        {{ form.as_p }}
         </label>
 
         <div>
