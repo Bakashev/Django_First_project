@@ -5,13 +5,21 @@
         <h2> {{ post.title }}</h2>
         <p> {{ post.content }}</p>
     </div>
+    {% if post.user == request.user%}
 
-    <a href="{% url 'edit_post' post.id %}">
-        + Edit post
-    </a>
 
-    <a href="{% url 'delete_post' post.id %}">
-        + Delete post
-    </a>
+        <a href="{% url 'edit_post' post.id %}">
+            + Edit post
+        </a>
+
+        <a href="{% url 'delete_post' post.id %}">
+            + Delete post
+        </a>
+    {% endif %}
+     {% include 'show_comments.html' with comments=post.comments.all %}
+    {% include 'create_comments.html' with post_id=post.id%}
+
+
+    
 
 {% endblock content %}

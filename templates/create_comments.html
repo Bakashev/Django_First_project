@@ -1,0 +1,19 @@
+
+
+
+ <form method="post" action="{% url 'show_post' post_id %}">
+ {% csrf_token %}
+      <div class="mb-3">
+          <label for="user_id" class="form-label">User Name</label>
+          <input type="text" class="form-control" id="user_id" name="user">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">User email</label>
+          <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="mb-3">
+          <label for="coment_id" class="form-label">Comment</label>
+          <textarea class="form-control" id="coment_id" rows="3" name="coment"></textarea>
+    </div>
+ <input type="submit" value="Отправить">
+  </form>

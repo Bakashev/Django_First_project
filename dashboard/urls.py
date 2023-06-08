@@ -18,9 +18,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from todo import views
+from todo import new_view
 
 urlpatterns = [
+    path('', new_view.Home.as_view(), name='start_page'),
     path('admin/', admin.site.urls),
     path('post/', include('todo.urls')),
 

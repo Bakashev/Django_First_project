@@ -3,9 +3,11 @@
     <h1>Delete</h1>
     <form action="" method="post">
     {% csrf_token %}
+
     <p>Удалить '{{ post.title }}'</p>
     <input type="submit" value="Подтвердить"/>
     </form>
+
 
 
 {% endblock content %}

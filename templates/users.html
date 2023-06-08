@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+   <div class="container">
+        <div class="row">
+    <div class="col">
+      Имя пользователя
+    </div>
+    <div class="col">
+      Идентификатор пользователя
+    </div>
+    <div class="col">
+      Количество постов
+    </div>
+    <div class="col">
+      Дата последнего поста
+    </div>
+</div>
+   </div>
+{% for user in users %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col" >
+
+            {{user.user__username}}
+    </div>
+    <div class="col">
+      {{ user.user_id }}
+    </div>
+    <div class="col">
+      {{user.user_id__count}}
+    </div>
+     <div class="col" >
+      {{ user.created__max }}
+    </div>
+  </div>
+</div>
+
+
+    {% endfor %}
+
+
+
+
+
+{% endblock %}

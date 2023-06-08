@@ -4,6 +4,30 @@
 {% block content %}
     <div class=".flex-wrap">
 
+
+
+    <div class="container">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="home_new.html" class="nav-link active" aria-current="page"><span style="vertical-align: inherit;"><span
+                style="vertical-align: inherit;">Дом</span></span></a></li>
+
+         {% if request.user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'create_post' %}" class="nav-link"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Создать заметку</span></span></a></li>
+        {% endif %}
+      </ul>
+    </header>
+  </div>
+
+
+
+    </header>
+    </div>
+
+
+
+
+
     {% for post in  object_list%}
 
 
@@ -35,4 +59,5 @@
      </div>
     </div>
 </div>
+    </div>
 {% endblock content %}
