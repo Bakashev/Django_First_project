@@ -24,12 +24,12 @@ from user.models import User
 # (Подсказка: Max можно применять на типе datetime)
 
 #Перечень пользователей по убыванию количества постов
-qs_post = Post.objects.all().select_related('user')\
-                            .values('user__username', 'user_id')\
-                            .annotate(Count('user_id'))\
-                             .annotate(Max('created'))\
-                            .order_by("-user_id__count")
-print(qs_post)
+# qs_post = Post.objects.all().select_related('user')\
+#                             .values('user__username', 'user_id')\
+#                             .annotate(Count('user_id'))\
+#                              .annotate(Max('created'))\
+#                             .order_by("-user_id__count")
+# print(qs_post)
 #----------------------------------------------------------------
 
 # Добавить пункт меню "Наиболее обсуждаемые", где будет перечень заметок, отсортированный по убыванию 📉 кол-ва комментариев,
@@ -39,14 +39,26 @@ print(qs_post)
 
 # coments = Comments.objects.all()\
 #                             .select_related('post').\
-#                             filter(created__gte = (datetime.datetime.now() - datetime.timedelta(hours=12)))\
+#                             filter(created__gte = (datetime.datetime.now() - datetime.timedelta(hours=1200)))\
 #                             .values('post_id')\
 #                             .annotate(Count('post_id')).order_by('-post_id__count')\
 #                             .filter(post_id__count__gt = 2)\
-#
-#
 # print(coments.query)
 # print(coments)
 
+posts = Comments.objects.select_related('post')\
+                        .filter(created__gte = (datetime.datetime.now() - datetime.timedelta(hours=1200)))\
+                        .values('post_id', 'post__title')\
+                        .annotate(Count('post_id'))\
+                        .order_by('-post_id__count')\
+                        .filter(post_id__count__gt = 2)
 
+
+
+print(posts.query)
+print(posts)
+
+
+# coments = Comments.objects.select_related('post').filter(post=3).values('useremail', "conten", 'created')
+# print(coments)
 

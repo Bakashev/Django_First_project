@@ -36,5 +36,6 @@ urlpatterns = [
     path('<int:pk>/edit', new_view.EditPost.as_view(), name='edit_post'),
     path('<int:pk>/delete', new_view.DeletePost.as_view(), name='delete_post'),
     path('userlist/', new_view.UserList.as_view(), name='user_list'),
-    path('commentslist/', new_view.StatisticComents.as_view(), name='statictic_comments'),
+    path('commentslist/', new_view.StatisticComents.as_view(), name='show_comments'),
+    path('<int:pk>/createcomment', new_view.CreateComent.as_view(), name='create_comment')
     ]

@@ -1,13 +1,13 @@
 
 
-     {% for coment in commments %}
+     {% for coment in comments %}
         <div class="list-group">
               <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{ coment.username }}</h5>
-                  <small>{{ comment.created }}</small>
+                  <h5 class="mb-1">{{ coment.useremail }} </h5>
+                  <small>{{ coment.created }}</small>
                 </div>
-                <p class="mb-1">{{coment.content}}</p>
+                <p class="mb-1">{{coment.conten}}</p>
                 <small>{{coment.content}}</small>
               </a>
         </div>

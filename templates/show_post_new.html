@@ -17,9 +17,8 @@
         </a>
     {% endif %}
      {% include 'show_comments.html' with comments=post.comments.all %}
-    {% include 'create_comments.html' with post_id=post.id%}
 
+    {% include 'create_comments.html' with pk=post.id%}
 
-    
 
 {% endblock content %}

@@ -1,13 +1,15 @@
-from datetime import datetime
+
+import datetime
 
 from .models import Post, Comments
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, SingleObjectMixin
-from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Max
+
 class Home(View):
 
     def get(self, request):
@@ -26,18 +28,29 @@ class ShowPost(DetailView):
     model = Post
     template_name = 'show_post_new.html'
 
-#@method_decorator(login_required, name='dispatch')
-class CreatPost(CreateView):
-    model = Post
-    template_name = 'create_post_new.html'
-    fields = '__all__'
-    # def post (self, id):
-    #     post = Post.objects.create(
-    #         title='title',
-    #         content='content',
-    #         created=datetime.now(),
-    #         user_id=id)
 @method_decorator(login_required, name='dispatch')
+
+# Создание с использованием CreqateView
+# class CreatPost(CreateView):
+#     model = Post
+#     template_name = 'create_post_new.html'
+#     fields = ['title', 'content', 'user']
+
+# Создание с использованием View
+class CreatPost(View):
+
+    def get(self, request):
+        return render(request, 'create_post_new.html')
+    def post(self, request):
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        user_id = self.request.user.id
+        post = Post(title=title, content=content, user_id=user_id )
+        post.save()
+        return redirect(reverse('home' ))
+
+
+# @method_decorator(login_required, name='dispatch')
 class EditPost(UpdateView):
     model = Post
     template_name = 'edit_post_new.html'
@@ -71,23 +84,53 @@ class UserList(ListView):
 
 class StatisticComents(ListView):
     model = Comments
+    template_name = 'statistic.html'
+    context_object_name = 'comments'
+
+
+    def get_queryset(self):
+        return Comments.objects.select_related('post')\
+                        .filter(created__gte = (datetime.datetime.now() - datetime.timedelta(hours=12)))\
+                        .values('post_id', 'post__title')\
+                        .annotate(Count('post_id'))\
+                        .order_by('-post_id__count')\
+                        .filter(post_id__count__gt = 2)
+
+
+
+
+class ShowComments(ListView):
+    model = Comments
     template_name = 'show_comments.html'
-    context_object_name = 'commments'
+    context_object_name = 'comments'
 
-    @staticmethod
-    def get_queryset():
-
+    def get_queryset(self):
         return Comments.objects.all()\
                             .select_related('post').\
-                            filter(created__gte = (datetime.datetime.now() - datetime.timedelta(hours=12)))\
+                            filter(created__gte = (datetime.datetime.now() - datetime.timedelta(hours=1200)))\
                             .values('post_id')\
                             .annotate(Count('post_id')).order_by('-post_id__count')\
                             .filter(post_id__count__gt = 2)\
 
-class CreateComent(CreateView):
-    model = Comments
-    template_name = 'create_comments.html'
-    fields = '__all__'
+
+class CreateComent(View):
+
+
+    # def get(self, request):
+    #     return render(request,'show_post.html', {'pk': "post.id"})
+
+
+    def post(self, request, pk):
+
+        post = get_object_or_404(Post, id=pk)
+        conten = request.POST.get('coment')
+        username = request.user
+        useremail = request.POST.get('email')
+        Comments.objects.create(username=username, conten=conten, useremail=useremail, post_id=post.id)
+
+        return redirect(reverse('show_post', kwargs={'pk': post.id}))
+
+
 
 
 

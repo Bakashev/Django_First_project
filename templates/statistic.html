@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{% block content %}
+
+      <div class="container">
+        <div class="row">
+            <div class="col" >
+
+            Название поста
+            </div>
+            <div class="col">
+            Количество комментариев
+            </div>
+
+        </div>
+    </div>
+
+
+    {% for comment in comments %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col" >
+
+            {{comment.post__title}}
+            </div>
+            <div class="col">
+            {{ comment.post_id__count }}
+            </div>
+
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+
+{% endblock %}
