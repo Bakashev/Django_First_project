@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from . import class_views
 from . import new_view
+from dashboard import settings
+from django.conf.urls.static import static
 
 # #Вложенность для пост/posts/
 #
@@ -37,5 +39,7 @@ urlpatterns = [
     path('<int:pk>/delete', new_view.DeletePost.as_view(), name='delete_post'),
     path('userlist/', new_view.UserList.as_view(), name='user_list'),
     path('commentslist/', new_view.StatisticComents.as_view(), name='show_comments'),
-    path('<int:pk>/createcomment', new_view.CreateComent.as_view(), name='create_comment')
+    path('<int:pk>/createcomment', new_view.CreateComent.as_view(), name='create_comment'),
+    path('userlist/', new_view.UserList.as_view(), name='user_list'),
+    path('<int:pk>/userinfo/', new_view.UserEdit.as_view(), name='user_info'),
     ]

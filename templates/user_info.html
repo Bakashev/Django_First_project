@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+    {% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+   {% if user.avatar.url is not null %}
+    <img src="{{user.avatar.url}}" class="img-thumbnail" alt="...">
+   {% endif %}
+    <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form | crispy }}
+
+    <input type="submit" value="Edit">
+    </form>
+
+
+{% endblock content %}

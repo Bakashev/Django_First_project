@@ -19,10 +19,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from todo import new_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', new_view.Home.as_view(), name='start_page'),
     path('admin/', admin.site.urls),
     path('post/', include('todo.urls')),
 
-]
+
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

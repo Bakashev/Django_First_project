@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Max
-
+from .forms import PostForm, UserForm
+from user.models import User
 class Home(View):
 
     def get(self, request):
@@ -18,6 +19,7 @@ class Home(View):
 class PostsList(ListView):
     model = Post
     template_name = 'home_new.html'
+    paginate_by = 10
     # @staticmethod
     # def get_queryset():
     #     return Post.objects.all().select_related('user').values('title', 'created', 'user__username')
@@ -31,30 +33,55 @@ class ShowPost(DetailView):
 @method_decorator(login_required, name='dispatch')
 
 # Создание с использованием CreqateView
-# class CreatPost(CreateView):
-#     model = Post
-#     template_name = 'create_post_new.html'
-#     fields = ['title', 'content', 'user']
+class CreatPost(CreateView):
+    model = Post
+    # template_name = 'create_post_new.html'
+    # fields = ["title", "content"]
 
-# Создание с использованием View
-class CreatPost(View):
 
     def get(self, request):
-        return render(request, 'create_post_new.html')
-    def post(self, request):
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        user_id = self.request.user.id
-        post = Post(title=title, content=content, user_id=user_id )
-        post.save()
-        return redirect(reverse('home' ))
+        return render(request, 'create_post_new.html', {'form': PostForm})
+
+    def post(self, request, *args, **kwargs):
+        form = PostForm(request.POST)
+        print(request.POST.getlist('title'))
+        print(request.POST.getlist('content'))
+        print(request.user)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+
+            post = self.model.objects.create(
+                title=title,
+                content=content,
+                user=request.user
+            )
+
+            post.save()
+            return redirect(reverse('show_post', kwargs={'pk': post.id}))
+
+
+# Создание с использованием View
+# class CreatPost(View):
+#
+#     def get(self, request):
+#         return render(request, 'create_post_new.html')
+#     def post(self, request):
+#         title = request.POST.get('title')
+#         content = request.POST.get('content')
+#         user_id = self.request.user.id
+#         post = Post(title=title, content=content, user_id=user_id )
+#         post.save()
+#         return redirect(reverse('home' ))
 
 
 # @method_decorator(login_required, name='dispatch')
 class EditPost(UpdateView):
     model = Post
+    form_class = PostForm
+    pk_url_kwarg = 'pk'
     template_name = 'edit_post_new.html'
-    fields = ['title', 'content']
+
 
 
 
@@ -130,6 +157,12 @@ class CreateComent(View):
 
         return redirect(reverse('show_post', kwargs={'pk': post.id}))
 
+
+class UserEdit(UpdateView):
+    model = User
+    form_class = UserForm
+    pk_url_kwarg = 'pk'
+    template_name = 'user_info.html'
 
 
 
